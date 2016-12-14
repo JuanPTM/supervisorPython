@@ -97,7 +97,7 @@ class SpecificWorker(GenericWorker):
 	      else:
 		g.add_edge(l[1], l[2])
 		
-	  #print posiciones
+	  #print self.posiciones
  	  #img = plt.imread("plano.png")
 	  #plt.imshow(img, extent = [-12284,25600,-3840,9023])
 	  #nx.draw_networkx(g, self.posiciones)
@@ -136,6 +136,7 @@ class SpecificWorker(GenericWorker):
 	  if len(self.camino) == 0:
 	    self.State = 1 
 	    return None
-	  self.gotopoint_proxy.go("",)
+	  #obtener posicion nodo objetivo. self.posiciones[idnodo]
+	  self.State+=1
 	  return None # llamada a go con valores del nodo.
 	  
