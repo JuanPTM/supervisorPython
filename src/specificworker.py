@@ -52,12 +52,13 @@ class SpecificWorker(GenericWorker):
 		super(SpecificWorker, self).__init__(proxy_map)
 		self.timer.timeout.connect(self.compute)
 		self.Period = 1
+		self.ruta = [71,35]
 		self.readGraph()
 		self.timer.start(self.Period)
 		self.stateMachine = { 0: self.initState,
 		  1: self.Objetivos,
 		  2: self.Targets,
-		  3: 3
+		  3: self.go
 		  }
 		self.State = 0
 		
@@ -74,7 +75,6 @@ class SpecificWorker(GenericWorker):
 
 	@QtCore.Slot()
 	def compute(self):
-		print 'SpecificWorker.compute...'
 		#try:
 		#	self.differentialrobot_proxy.setSpeedBase(100, 0)
 		#except Ice.Exception, e:
@@ -116,27 +116,37 @@ class SpecificWorker(GenericWorker):
 	def initState(self):
 	  print 'SpecificWorker.initState...'
 	  self.NodoAct = self.nodoCercano()
-	  self.ruta = [66,67]
 	  self.State += 1
+	  
 	def Objetivos(self):
 	  if len(self.ruta) == 0:
-	    self.State = 0 
+	    self.State -= 1 
 	    return None
 	  print 'SpecificWorker.Objetivos...'
 	  self.NodoAct = self.nodoCercano()
-	  self.NodoAct = 71
+	  print self.NodoAct
 	  self.camino = nx.shortest_path(g,source=str(self.NodoAct), target=str(self.ruta[0]));
 	  self.ruta.pop(0)
-	  self.NodoAct = 54
 	  print self.ruta
 	  print self.camino
 	  self.State += 1
 	  
 	def Targets(self):
 	  if len(self.camino) == 0:
-	    self.State = 1 
+	    self.State -= 1 
 	    return None
+	  self.nodoObjetivo = self.posiciones[self.camino[0]]
+	  print self.nodoObjetivo
+	  self.gotopoint_proxy.go("base",int(self.nodoObjetivo[0]),int(self.nodoObjetivo[1]),0);
+	  self.camino.pop(0)
 	  #obtener posicion nodo objetivo. self.posiciones[idnodo]
+	  
 	  self.State+=1
 	  return None # llamada a go con valores del nodo.
+	
+	def go(self):
+	  if (self.gotopoint_proxy.atTarget() == True):
+	    self.gotopoint_proxy.stop()
+	    print "HE LLEGADO"
+	    self.State -= 1
 	  
