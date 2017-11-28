@@ -1,36 +1,31 @@
-```
-```
-#
-``` supervisor
-```
-Intro to component here
+Supervisor Component
+----
 
+Description
+---
+This component generate a path to visit different rooms of a map, using a graph to achieve the objetive and improve the path calculations. Sending the path to the [controller component][1].
 
-## Configuration parameters
-As any other component,
-``` *supervisor* ```
-needs a configuration file to start. In
+Exhaustive documentation [here][3].
 
-    etc/config
+----
+Dependencies
+----
+* [Robocomp][2]
+*  [NetworkX][4]
+*  [Matplotlib][5]
 
-you can find an example of a configuration file. We can find there the following lines:
+----
+Executing
+---
+Same as any Robocomp component.
 
-    EXAMPLE HERE
+----
+Contact
+----
+Feel free to contact with any doubt.
 
-    
-## Starting the component
-To avoid changing the *config* file in the repository, we can copy it to the component's home directory, so changes will remain untouched by future git pulls:
-
-    cd
-
-``` <supervisor 's path> ```
-
-    cp etc/config config
-    
-After editing the new config file we can run the component:
-
-    bin/
-
-```supervisor ```
-
-    --Ice.Config=config
+  [1]: https://github.com/JuanPTM/controller
+  [2]: https://github.com/robocomp
+  [3]: https://github.com/JuanPTM/supervisorPython/blob/master/Robotics_%20JuanPedroTorres.pdf
+  [4]: https://networkx.github.io/
+  [5]: https://matplotlib.org/
